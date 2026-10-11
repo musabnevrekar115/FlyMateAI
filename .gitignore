@@ -1,0 +1,27 @@
+# Secret environment variables
+.env
+.env.*
+!.env.example
+
+# Firebase Admin private credentials
+*serviceAccount*.json
+*service-account*.json
+*firebase-adminsdk*.json
+
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor and operating system
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+coverage/

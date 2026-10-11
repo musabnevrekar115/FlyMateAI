@@ -1,10 +1,11 @@
-
 /* =========================================
-   AEROEASE — AI TRAVEL PLANNER
-   Powered by Google Gemini
+   AEROEASE / FLYMATEAI
+   COMPLETE AI TRAVEL PLANNER
 ========================================= */
 
-/* TRAVEL CHECKLIST */
+/* =========================================
+   1. TRAVEL CHECKLIST
+========================================= */
 
 const checklist = [
   "ID or passport",
@@ -15,32 +16,32 @@ const checklist = [
 ];
 
 function renderPlanner() {
-  const container = $("checklist");
+  const container = document.getElementById("checklist");
 
-  if (!container) return;
+  if (container) {
+    container.replaceChildren();
 
-  container.replaceChildren();
+    checklist.forEach((item, index) => {
+      const label = document.createElement("label");
+      label.className = "check-item";
 
-  checklist.forEach((item, index) => {
-    const label = document.createElement("label");
-    label.className = "check-item";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = checks.includes(index);
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = checks.includes(index);
+      checkbox.addEventListener("change", () => {
+        toggleCheck(index);
+      });
 
-    checkbox.addEventListener("change", () => {
-      toggleCheck(index);
+      const text = document.createElement("span");
+      text.textContent = item;
+
+      label.append(checkbox, text);
+      container.appendChild(label);
     });
+  }
 
-    const text = document.createElement("span");
-    text.textContent = item;
-
-    label.append(checkbox, text);
-    container.appendChild(label);
-  });
-
-  const savedList = $("saved-list");
+  const savedList = document.getElementById("saved-list");
 
   if (savedList) {
     savedList.textContent = saved.length
@@ -58,11 +59,21 @@ function toggleCheck(index) {
 }
 
 /* =========================================
-   LIVE GEMINI CHAT
+   2. GEMINI CHAT SETTINGS
 ========================================= */
 
+// Local backend for VS Code development.
+// Set a deployed backend URL here when available.
+
+const AERO_AI_API = "http://127.0.0.1:3000/api/chat";
+
 const aeroChatHistory = [];
+
 let aeroChatBusy = false;
+
+/* =========================================
+   3. CHAT MESSAGE DISPLAY
+========================================= */
 
 function addMessage(message, sender) {
   const container = document.getElementById("messages");
@@ -75,13 +86,18 @@ function addMessage(message, sender) {
   bubble.textContent = message;
 
   container.appendChild(bubble);
+
   container.scrollTop = container.scrollHeight;
 
   return bubble;
 }
 
+/* =========================================
+   4. GEMINI AI CHAT
+========================================= */
+
 async function sendMessage(event) {
-  event?.preventDefault();
+  if (event) event.preventDefault();
 
   if (aeroChatBusy) return;
 
@@ -90,102 +106,96 @@ async function sendMessage(event) {
   if (!input) return;
 
   const message = input.value.trim();
+
   if (!message) return;
 
   addMessage(message, "user");
 
   input.value = "";
   input.disabled = true;
+
   aeroChatBusy = true;
 
   const typing = addMessage(
-    "✦ Aero AI is thinking...",
+    "✦ Aero AI is planning your journey...",
     "bot"
   );
 
   try {
-    const response = await fetch(
-      "http://127.0.0.1:3000/api/chat",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message,
-          history: aeroChatHistory
-        }),
-        signal: AbortSignal.timeout(90000)
-      }
-    );
+    const response = await fetch(AERO_AI_API, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message,
+        history: aeroChatHistory
+      }),
+
+      signal: AbortSignal.timeout(45000)
+    });
 
     const data = await response.json();
 
     if (!response.ok || !data.success) {
       throw new Error(
-        data.error || "AI request failed"
+        data.error || "Gemini request failed"
       );
     }
 
-    if (typeof data.reply !== "string") {
-      throw new Error("Invalid AI response");
+    if (
+      typeof data.reply !== "string" ||
+      !data.reply.trim()
+    ) {
+      throw new Error("Invalid Gemini response");
     }
 
+    // Display Gemini's real response
     if (typing) {
       typing.textContent = data.reply;
     }
-     
-if (typing) {
-  typing.textContent = data.reply;
-}
 
-// Automatically speak Gemini's reply
-try {
-  if (typeof speakAeroReply === "function") {
-    speakAeroReply(data.reply);
-  }
-} catch (voiceError) {
-  console.warn("Aero AI voice error:", voiceError);
-}
+    // Store recent conversation history
+    aeroChatHistory.push(
+      {
+        role: "user",
+        text: message
+      },
+      {
+        role: "model",
+        text: data.reply
+      }
+    );
 
-// Save conversation history
-aeroChatHistory.push(
-  { role: "user", text: message },
-  { role: "model", text: data.reply }
-);
-
-if (aeroChatHistory.length > 20) {
-  aeroChatHistory.splice(
-    0,
-    aeroChatHistory.length - 20
-  );
-}
-
- } catch (error) {
-  console.error("Aero AI chat error:", error);
-
-  if (typing) {
-    if (error.name === "TimeoutError") {
-      typing.textContent =
-        "Aero AI is taking longer than expected. " +
-        "Please try again.";
-    } else {
-      typing.textContent =
-        "Unable to connect to Aero AI. " +
-        "Please check the backend connection.";
+    if (aeroChatHistory.length > 20) {
+      aeroChatHistory.splice(
+        0,
+        aeroChatHistory.length - 20
+      );
     }
-  }
 
-  } finally {
-    input.disabled = false;
-    aeroChatBusy = false;
+    // Voice errors must never interrupt text chat
+    try {
+      if (typeof speakAeroReply === "function") {
+        speakAeroReply(data.reply);
+      }
+    } catch (voiceError) {
+      console.warn(
+        "Aero AI voice error:",
+        voiceError
+      );
+    }
 
-    input.focus();
+  } catch (error) {
+    console.warn("Aero AI request failed:", error);
 
-    const container = document.getElementById("messages");
+    // Clearly labeled fallback, not a fake AI response
+    const fallback = getTravelFallback(message);
 
-    if (container) {
-      container.scrollTop = container.scrollHeight;
+    if (typing) {
+      typing.textContent = fallback;
     }
   }
 }

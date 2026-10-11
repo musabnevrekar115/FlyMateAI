@@ -1,0 +1,5 @@
+/* AeroEase hotel card interactions: preserves current AeroGlass theme */
+#hotels .hotel-select { cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+#hotels .hotel-select:hover { transform: translateY(-6px); border-color: rgba(70,160,255,.7); box-shadow: 0 20px 50px rgba(0,100,255,.20); }
+#hotels .hotel-select:focus-visible { outline: 2px solid #65c4ff; outline-offset: 4px; }
+@media (prefers-reduced-motion:reduce) { #hotels .hotel-select { transition: none; } }

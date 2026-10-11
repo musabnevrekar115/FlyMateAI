@@ -1,729 +1,1345 @@
 
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport"
+
         content="width=device-width, initial-scale=1">
+
   <meta name="theme-color" content="#030713">
+
+
 
   <title>AeroEase | Intelligent Aviation Experience</title>
 
+
+
   <link rel="preconnect"
+
         href="https://fonts.googleapis.com">
 
+
+
   <link rel="stylesheet"
+
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
 
+
+
   <link rel="stylesheet" href="css/style.css">
+
   <link rel="stylesheet" href="css/earth.css">
+
   <link rel="stylesheet" href="css/transitions.css">
+  <link rel="stylesheet" href="css/hotel-interactions.css">
+
+
 
   <script src="js/app.js" defer></script>
+
   <script src="js/flights.js" defer></script>
+
   <script src="js/auth.js" defer></script>
+
   <script src="js/planner.js" defer></script>
+
   <script src="js/transitions.js" defer></script>
+
  <script type="module" src="js/earth.js"></script>
+
  <script src="js/voice.js" defer></script>
+
+
 
 <script type="module" src="js/firebase-config.js"></script>
 
+
+
 </head>
+
+
 
 <body>
 
 
+
+
+
 <!-- AEROEASE CINEMATIC AIRPLANE LOADER -->
 
+
+
 <div
+
   id="aero-transition"
+
   class="aero-transition is-active"
+
   aria-hidden="true"
+
 >
+
   <!-- Left curtain -->
+
   <div class="curtain curtain-left"></div>
 
+
+
   <!-- Right curtain -->
+
   <div class="curtain curtain-right"></div>
 
 
+
+
+
   <div class="aero-transition-brand">
+
     <span class="aero-transition-logo">✈</span>
 
+
+
     <strong>
+
       Aero<span>Ease</span>
+
     </strong>
 
+
+
     <small>YOUR JOURNEY BEGINS HERE</small>
+
   </div>
 
+
+
   <!-- Flying airplane -->
+
   <div class="aero-transition-plane">
-    <!-- <span class="plane-symbol">✈</span> -->
+
+    <!-- Plane visual retained as currently configured -->
+
     <span class="plane-trail"></span>
+
   </div>
+
 </div>
+
+
 
 <!-- END AIRPLANE LOADER -->
 
+
+
   <div class="stars"></div>
+
   <div class="ambient"></div>
+
+
 
   <div class="shell">
 
+
+
     <!-- NAVIGATION -->
+
     <header class="navbar glass">
+
       <a href="#" class="logo"
+
          onclick="go('home');return false">
+
         <span class="logo-mark">✈</span>
+
         Aero<span>Ease</span>
+
       </a>
 
+
+
       <nav id="nav" class="nav-links"
+
            aria-label="Main navigation">
+
         <button data-nav="home"
+
                 onclick="go('home')">Home</button>
+
         <button data-nav="flights"
+
                 onclick="go('flights')">Flights</button>
+
         <button data-nav="hotels"
+
                 onclick="go('hotels')">Hotels</button>
+
         <button data-nav="packages"
+
                 onclick="go('packages')">Packages</button>
+
         <button data-nav="planner"
+
                 onclick="go('planner')">AI Planner</button>
+
         <button data-nav="bookings"
+
                 onclick="go('bookings')">My Trips</button>
+
       </nav>
 
+
+
       <div class="nav-actions">
+
         <button class="nav-login"
+
         onclick="go('login')">Login</button>
+
         <button class="btn primary" id="nav-cta"
+
                 onclick="go('dashboard')">Sign Up Free ↗</button>
+
         <button class="menu-toggle"
+
                 aria-label="Toggle navigation"
+
                 aria-expanded="false"
+
                 onclick="toggleMenu()">☰</button>
+
       </div>
+
     </header>
 
+
+
     <!-- HOME PAGE -->
+
     <main class="page active" id="home">
+
+
 
       <section class="hero">
 
+
+
         <div class="hero-copy">
+
           <span class="pill">
+
             ✧ Your journey begins here
+
           </span>
 
+
+
           <h1>
+
             Discover and Book<br>
+
             Flights
+
             <span class="gradient-text">Worldwide</span>
+
           </h1>
 
+
+
           <p class="hero-sub">
+
             Discover extraordinary destinations and plan
+
             smarter journeys<br class="desktop-only">
+
             with your personal AI travel companion.
+
           </p>
 
+
+
           <button class="btn primary hero-cta"
+
                   onclick="document.getElementById('flight-widget').scrollIntoView({behavior:'smooth'})">
+
             Explore Flights ↗
+
           </button>
+
         </div>
 
-       
+
+
+
+
 <!-- INTERACTIVE 3D EARTH -->
+
 <div class="earth-scene" aria-hidden="true">
+
   <div id="earth-container"></div>
+
 </div>
 
 
+
+
+
         <!-- FLOATING SHORTCUTS -->
+
         <div class="vertical-actions">
+
           <button title="My Trips"
+
                   onclick="go('bookings')">▣</button>
+
           <button title="AI Planner"
+
                   onclick="go('planner')">⌖</button>
+
           <button title="Dashboard"
+
                   onclick="go('dashboard')">⚙</button>
+
           <button title="Flight Explorer"
+
                   onclick="go('flights')">✈</button>
+
         </div>
+
+
 
         <div class="hero-bottom">
 
+
+
           <!-- LEFT FLOATING CARDS -->
+
           <div class="left-cards">
-            <div class="mini-card glass">
-              <div class="mini-route">
-                <div>
-                  <strong>BOM</strong>
-                  <small>Mumbai<br>06:20</small>
-                </div>
-                <span class="mini-plane">✈</span>
-                <div class="right">
-                  <strong>DEL</strong>
-                  <small>Delhi<br>08:35</small>
-                </div>
-              </div>
-              <p class="tiny">
-                Explore new horizons with AeroEase
-              </p>
-            </div>
 
             <div class="mini-card glass">
-              <span class="pill">YOUR JOURNEY</span>
-              <h3>Travel made effortless</h3>
-              <div class="progress"><span></span></div>
-              <span class="tiny">Search • Plan • Explore</span>
+
+              <div class="mini-route">
+
+                <div>
+
+                  <strong>BOM</strong>
+
+                  <small>Mumbai<br>06:20</small>
+
+                </div>
+
+                <span class="mini-plane">✈</span>
+
+                <div class="right">
+
+                  <strong>DEL</strong>
+
+                  <small>Delhi<br>08:35</small>
+
+                </div>
+
+              </div>
+
+              <p class="tiny">
+
+                Explore new horizons with AeroEase
+
+              </p>
+
             </div>
+
+
+
+            <div class="mini-card glass">
+
+              <span class="pill">YOUR JOURNEY</span>
+
+              <h3>Travel made effortless</h3>
+
+              <div class="progress"><span></span></div>
+
+              <span class="tiny">Search • Plan • Explore</span>
+
+            </div>
+
           </div>
+
+
 
           <!-- FLIGHT SEARCH -->
+
           <div class="search-card glass" id="flight-widget">
+
             <div class="tabs">
+
               <button class="on"
+
                       onclick="tripTab(this)">Round Trip</button>
+
               <button onclick="tripTab(this)">One Way</button>
+
               <button onclick="tripTab(this)">Multi-City</button>
+
             </div>
+
+
 
             <label class="sr-only" for="from">
+
               Departure city
+
             </label>
+
             <select class="input" id="from">
+
               <option>Mumbai</option>
+
               <option>Delhi</option>
+
               <option>Bengaluru</option>
+
               <option>Goa</option>
+
               <option>Hyderabad</option>
+
               <option>Chennai</option>
+
             </select>
+
+
 
             <label class="sr-only" for="to">
+
               Destination city
+
             </label>
+
             <select class="input" id="to">
+
               <option>Delhi</option>
+
               <option>Mumbai</option>
+
               <option>Goa</option>
+
               <option>Bengaluru</option>
+
               <option>Hyderabad</option>
+
               <option>Chennai</option>
+
             </select>
 
+
+
             <div class="form-line">
+
               <div>
+
                 <label class="sr-only" for="departure">
+
                   Departure date
+
                 </label>
+
                 <input class="input" type="date"
+
                        id="departure">
+
               </div>
+
               <div>
+
                 <label class="sr-only" for="travelers">
+
                   Travelers
+
                 </label>
+
                 <select class="input" id="travelers">
+
                   <option value="1">1 Adult</option>
+
                   <option value="2">2 Adults</option>
+
                   <option value="3">3 Adults</option>
+
                   <option value="4">4 Adults</option>
+
                 </select>
+
               </div>
+
             </div>
+
+
 
             <label class="consent">
+
               <input type="checkbox" id="search-consent"
+
                      checked>
+
               I agree to the demo terms and conditions.
+
             </label>
 
+
+
             <button class="btn primary search-button"
+
                     onclick="searchFlights()">
+
               ⌕ &nbsp; Search Flights
+
             </button>
+
             <p class="tiny search-disclaimer">
+
               Illustrative flight fares only.
+
             </p>
+
           </div>
+
         </div>
+
       </section>
+
+
 
       <!-- DESTINATIONS -->
+
       <section class="section">
+
         <div class="heading">
+
           <div>
+
             <p class="kicker">EXPLORE THE WORLD</p>
+
             <h2>
+
               Popular
+
               <span class="gradient-text">Destinations</span>
+
             </h2>
+
             <p class="muted">
+
               Handpicked places to inspire your next adventure.
+
             </p>
+
           </div>
+
           <button class="btn outline"
+
                   onclick="go('planner')">
+
             Explore with AI ↗
+
           </button>
+
         </div>
+
+
 
         <div class="cards">
+
           <article class="destination bali">
+
             <div class="destination-info">
+
               <div>
+
                 <h3>Bali</h3>
+
                 <p>Indonesia • Tropical Escape</p>
+
               </div>
+
               <button class="heart" data-place="Bali"
+
                       aria-label="Save Bali"
+
                       onclick="save(this,'Bali')">♡</button>
+
             </div>
+
           </article>
+
+
 
           <article class="destination swiss">
+
             <div class="destination-info">
+
               <div>
+
                 <h3>Swiss Alps</h3>
+
                 <p>Switzerland • Mountain Escape</p>
+
               </div>
+
               <button class="heart" data-place="Swiss Alps"
+
                       aria-label="Save Swiss Alps"
+
                       onclick="save(this,'Swiss Alps')">♡</button>
+
             </div>
+
           </article>
+
+
 
           <article class="destination dubai">
+
             <div class="destination-info">
+
               <div>
+
                 <h3>Dubai</h3>
+
                 <p>UAE • Luxury Adventure</p>
+
               </div>
+
               <button class="heart" data-place="Dubai"
+
                       aria-label="Save Dubai"
+
                       onclick="save(this,'Dubai')">♡</button>
+
             </div>
+
           </article>
+
         </div>
+
       </section>
+
+
 
       <!-- FEATURES -->
+
       <section class="section">
+
         <div class="heading">
+
           <div>
+
             <p class="kicker">INTELLIGENT AVIATION</p>
+
             <h2>
+
               Travel Beyond
+
               <span class="gradient-text">Ordinary</span>
+
             </h2>
+
             <p class="muted">
+
               Your entire journey, beautifully connected.
+
             </p>
+
           </div>
+
         </div>
+
+
 
         <div class="feature-grid">
+
           <article class="feature glass">
+
             <span class="feature-icon">✦</span>
+
             <h3>AI Travel Copilot</h3>
+
             <p>Explore destinations, build checklists
+
                and get travel-planning inspiration.</p>
+
             <button class="btn outline"
+
                     onclick="go('planner')">Explore ↗</button>
+
           </article>
 
+
+
           <article class="feature glass">
+
             <span class="feature-icon">✈</span>
+
             <h3>Flight Discovery</h3>
+
             <p>Compare sample flight routes with a clear,
+
                beautiful interface.</p>
+
             <button class="btn outline"
+
                     onclick="go('flights')">Find Flights ↗</button>
+
           </article>
 
+
+
           <article class="feature glass">
+
             <span class="feature-icon">◈</span>
+
             <h3>Personal Dashboard</h3>
+
             <p>Track your saved destinations and
+
                demo reservations in one place.</p>
+
             <button class="btn outline"
+
                     onclick="go('dashboard')">Dashboard ↗</button>
+
           </article>
+
         </div>
+
       </section>
+
     </main>
+
+
 
     <!-- FLIGHTS PAGE -->
+
     <main class="page inner" id="flights">
+
       <div class="page-header">
+
         <p class="kicker">FLIGHT EXPLORER</p>
+
         <h1 class="page-title">
+
           Find Your
+
           <span class="gradient-text">Next Flight</span>
+
         </h1>
+
         <p class="muted">
+
           Compare sample routes for your next journey.
+
         </p>
+
       </div>
+
+
 
       <div class="panel glass">
+
         <div class="search-row">
+
           <select class="input" id="flight-from"
+
                   aria-label="Departure city">
+
             <option>Mumbai</option>
+
             <option>Delhi</option>
+
             <option>Bengaluru</option>
+
             <option>Goa</option>
+
           </select>
+
+
 
           <select class="input" id="flight-to"
+
                   aria-label="Destination city">
+
             <option>Delhi</option>
+
             <option>Mumbai</option>
+
             <option>Goa</option>
+
             <option>Bengaluru</option>
+
           </select>
 
+
+
           <input class="input" type="date"
+
                  id="flight-date"
+
                  aria-label="Flight date">
 
+
+
           <button class="btn primary"
+
                   onclick="renderFlights()">Search →</button>
+
         </div>
+
       </div>
 
+
+
       <div id="flight-results"></div>
+
       <p class="notice">
+
         Demonstration fares are not real-time prices
+
         or confirmed airline availability.
+
       </p>
+
     </main>
+
+
 
     <!-- HOTELS -->
     <main class="page inner" id="hotels">
       <div class="page-header">
         <p class="kicker">STAY IN STYLE</p>
-        <h1 class="page-title">
-          Discover Beautiful
-          <span class="gradient-text">Stays</span>
-        </h1>
-        <p class="muted">
-          Explore accommodation inspiration for your trip.
-        </p>
+        <h1 class="page-title">Discover Beautiful <span class="gradient-text">Stays</span></h1>
+        <p class="muted">Choose a stay style and let Aero AI suggest a trip.</p>
       </div>
 
       <div class="cards">
-        <article class="destination resort">
-          <div class="destination-info">
-            <div>
-              <h3>Tropical Resorts</h3>
-              <p>Relax by the ocean</p>
-            </div>
-          </div>
+        <article class="destination resort hotel-select" role="button" tabindex="0"
+          aria-label="Explore tropical resorts with Aero AI"
+          onclick="suggest('Suggest tropical resorts in Goa for a 3-day beach holiday with areas to stay and estimated budgets in INR')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+          <div class="destination-info"><div><h3>Tropical Resorts</h3><p>Relax by the ocean · Explore with AI →</p></div></div>
         </article>
-        <article class="destination luxury">
-          <div class="destination-info">
-            <div>
-              <h3>Luxury Hotels</h3>
-              <p>Elevated city stays</p>
-            </div>
-          </div>
+        <article class="destination luxury hotel-select" role="button" tabindex="0"
+          aria-label="Explore luxury hotels with Aero AI"
+          onclick="suggest('Suggest luxury hotels in Dubai for a 4-day vacation with recommended areas, amenities and estimated budgets in INR')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+          <div class="destination-info"><div><h3>Luxury Hotels</h3><p>Elevated city stays · Explore with AI →</p></div></div>
         </article>
-        <article class="destination retreat">
-          <div class="destination-info">
-            <div>
-              <h3>Mountain Retreats</h3>
-              <p>Peaceful escapes</p>
-            </div>
-          </div>
+        <article class="destination retreat hotel-select" role="button" tabindex="0"
+          aria-label="Explore mountain retreats with Aero AI"
+          onclick="suggest('Suggest mountain retreats near Manali for a 3-day peaceful holiday with transport tips and estimated budgets in INR')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+          <div class="destination-info"><div><h3>Mountain Retreats</h3><p>Peaceful escapes · Explore with AI →</p></div></div>
         </article>
       </div>
-      <p class="notice">
-        Hotel images are inspiration, not live listings.
-      </p>
+      <p class="notice">AI travel suggestions are estimates, not live hotel listings or reservations.</p>
     </main>
 
     <!-- PACKAGES -->
     <main class="page inner" id="packages">
       <div class="page-header">
         <p class="kicker">CURATED ADVENTURES</p>
-        <h1 class="page-title">
-          Experience More,
-          <span class="gradient-text">Plan Less</span>
-        </h1>
-        <p class="muted">
-          Choose an adventure to begin planning.
-        </p>
+        <h1 class="page-title">Experience More, <span class="gradient-text">Plan Less</span></h1>
+        <p class="muted">Choose an adventure to start planning.</p>
       </div>
-
       <div class="feature-grid">
         <article class="feature glass">
           <span class="feature-icon">☀</span>
           <h3>Beach Escapes</h3>
           <p>Sunshine, coastlines and relaxing destinations.</p>
-          <button class="btn primary"
-                  onclick="suggest('Plan a beach holiday')">
-            Plan Trip →
-          </button>
+          <button class="btn primary" type="button"
+            onclick="suggest('Plan a budget-friendly 3-day Goa beach holiday including attractions, accommodation areas and an estimated budget in INR')">Plan Trip →</button>
         </article>
         <article class="feature glass">
           <span class="feature-icon">♢</span>
           <h3>Luxury Getaways</h3>
           <p>Discover beautiful cities and premium stays.</p>
-          <button class="btn primary"
-                  onclick="suggest('Plan a luxury trip')">
-            Plan Trip →
-          </button>
+          <button class="btn primary" type="button"
+            onclick="suggest('Plan a luxury 4-day Dubai vacation including hotel areas, sightseeing and an estimated budget in INR')">Plan Trip →</button>
         </article>
         <article class="feature glass">
           <span class="feature-icon">⌖</span>
           <h3>Adventure Trips</h3>
           <p>Mountains, hiking inspiration and nature escapes.</p>
-          <button class="btn primary"
-                  onclick="suggest('Plan an adventure trip')">
-            Plan Trip →
-          </button>
+          <button class="btn primary" type="button"
+            onclick="suggest('Plan a 5-day Manali mountain holiday including safe activities, sightseeing and an estimated budget in INR')">Plan Trip →</button>
         </article>
       </div>
     </main>
 
     <!-- AI PLANNER -->
+
     <main class="page inner" id="planner">
+
       <div class="page-header">
+
         <p class="kicker">YOUR DIGITAL COPILOT</p>
+
         <h1 class="page-title">
+
           Meet <span class="gradient-text">Aero AI</span>
+
         </h1>
+
         <p class="muted">
-          Your interactive travel-planning demo assistant.
+
+          Your AI travel companion for planning your next journey.
+
         </p>
+
       </div>
 
+
+
       <div class="dash-grid">
+
         <div class="panel glass">
+
           <h3>✦ Aero AI Travel Companion</h3>
+
           <div class="chat-messages" id="messages"
+
                aria-live="polite">
+
             <div class="bubble bot">
+
               Welcome aboard! ✈ Ask me about packing,
+
               flight comparisons or travel destinations.
+
             </div>
+
           </div>
+
+
 
           <form class="chat-form"
+
                 onsubmit="sendMessage(event)">
+
             <input class="input" id="chat-input"
+
                    placeholder="Ask about your next journey..."
+
                    aria-label="Message Aero AI" required>
+
             <button class="btn primary"
+
                     type="submit">➤</button>
+
           </form>
+
           <p class="notice">
+
   ✦ Powered by Gemini AI • Your intelligent travel companion
+
 </p>
+
         </div>
+
+
 
         <div>
-          <div class="panel glass">
-            <h3>☑ Travel Checklist</h3>
-            <div id="checklist"></div>
-          </div>
 
           <div class="panel glass">
-            <h3>♡ Saved Destinations</h3>
-            <p id="saved-list" class="muted">
-              No destinations saved yet.
-            </p>
-            <button class="btn outline"
-                    onclick="go('home')">Explore Places →</button>
+
+            <h3>☑ Travel Checklist</h3>
+
+            <div id="checklist"></div>
+
           </div>
+
+
+
+          <div class="panel glass">
+
+            <h3>♡ Saved Destinations</h3>
+
+            <p id="saved-list" class="muted">
+
+              No destinations saved yet.
+
+            </p>
+
+            <button class="btn outline"
+
+                    onclick="go('home')">Explore Places →</button>
+
+          </div>
+
         </div>
+
       </div>
+
     </main>
+
+
 
     <!-- MY TRIPS -->
+
     <main class="page inner" id="bookings">
+
       <div class="page-header">
+
         <p class="kicker">YOUR JOURNEY JOURNAL</p>
+
         <h1 class="page-title">
+
           My <span class="gradient-text">Trips</span>
+
         </h1>
+
         <p class="muted">
+
           Your saved demo journeys in one place.
+
         </p>
+
       </div>
+
       <div id="booking-list"></div>
+
     </main>
+
+
 
     <!-- DASHBOARD -->
+
     <main class="page inner" id="dashboard">
+
       <div class="page-header">
+
         <p class="kicker">YOUR PERSONAL SPACE</p>
+
         <h1 class="page-title">
+
           Welcome Aboard,
+
           <span class="gradient-text"
+
                 id="display-name">Traveler</span>
+
         </h1>
+
         <p class="muted">
+
           Your next intelligent journey begins here.
+
         </p>
+
       </div>
+
+
 
       <div class="dash-grid">
+
         <div class="panel glass dash-hero">
+
           <p class="kicker">WHERE TO NEXT?</p>
+
           <h2>Your Next Adventure<br>
+
             <span class="gradient-text">Awaits You</span>
+
           </h2>
+
           <p class="muted">
+
             Discover new horizons with AeroEase.
+
           </p>
+
           <button class="btn primary"
+
                   onclick="go('flights')">
+
             Explore Flights →
+
           </button>
+
         </div>
 
+
+
         <div class="panel glass">
+
           <p class="muted">Your  Bookings</p>
+
           <div class="metric" id="booking-count">00</div>
+
           <p class="muted">Saved Destinations</p>
+
           <div class="metric" id="saved-count">00</div>
+
           <button class="btn outline"
+
                   onclick="go('bookings')">
+
             View Trips →
+
           </button>
+
         </div>
 
+
+
         <div class="panel glass">
+
           <h3>✦ Travel Planner</h3>
+
           <p class="muted">
+
             Explore personalized travel inspiration.
+
           </p>
+
           <button class="btn outline"
+
                   onclick="go('planner')">
+
             Open Copilot →
+
           </button>
+
         </div>
 
+
+
         <div class="panel glass">
+
           <h3>⚙ Account</h3>
+
           <p class="muted" id="account-email"></p>
+
           <button class="btn outline"
+
                   onclick="logout()">Sign Out →</button>
+
         </div>
+
       </div>
+
     </main>
 
+
+
     <!-- LOGIN / SIGNUP -->
+
     <main class="page inner" id="login">
+
       <div class="auth-box panel glass">
+
         <div class="auth-heading">
+
           <span class="pill">WELCOME ABOARD</span>
+
           <h2 id="auth-heading">Create Your Account</h2>
+
           <p class="muted">Your journey starts here.</p>
+
         </div>
 
-      
+
+
+
+
+
+
 
 
         <form onsubmit="authenticate(event)">
+
           <div id="name-field">
+
             <label for="auth-name">Full Name</label>
+
             <input class="input" id="auth-name"
+
                    autocomplete="name"
+
                    placeholder="Your name">
+
           </div>
 
+
+
           <label for="auth-email">Email Address</label>
+
           <input class="input" id="auth-email"
+
                  type="email"
+
                  autocomplete="email"
+
                  placeholder="you@example.com"
+
                  required>
+
+
 
           <label for="auth-password">Password</label>
+
           <input class="input" id="auth-password"
+
                  type="password"
+
                  autocomplete="current-password"
+
                  minlength="6"
+
                  placeholder="Minimum 6 characters"
+
                  required>
 
+
+
           <button class="btn primary full"
+
         id="auth-submit" type="submit">
+
   Create Account →
+
 </button>
+
         </form>
 
-        
+
+
+
+
 <!-- GOOGLE AUTHENTICATION -->
+
 <div class="google-login">
+
   <p class="muted">or continue with</p>
 
+
+
   <button
+
     type="button"
+
     class="google-auth-btn"
+
     onclick="loginWithGoogle()"
+
   >
+
     <span class="google-g">G</span>
+
     Continue with Google
+
   </button>
+
 </div>
 
 
+
+
+
         <p class="auth-switch muted">
+
           <span id="switch-prompt">
+
             Already have an account?
+
           </span>
+
           <button class="switch-link"
+
                   id="switch-auth"
+
                   onclick="toggleAuth()">Log In</button>
+
         </p>
+
+
 
         <p class="notice">
+
           Secure sign-in powered by Firebase Authentication.
+
           requires Firebase authentication.
+
         </p>
+
       </div>
+
     </main>
 
+
+
     <!-- FOOTER -->
+
     <footer class="footer">
+
       <span>✈ AeroEase — Intelligent Aviation Experience</span>
+
       <span>© 2026 AeroEase • Hackathon Demo</span>
+
     </footer>
+
   </div>
+
+
 
   <!-- NOTIFICATION -->
+
   <div class="toast" id="toast" role="status"></div>
 
+
+
   <!-- BOOKING MODAL -->
+
   <div class="modal" id="modal" role="dialog"
+
        aria-modal="true"
+
        aria-label="Flight booking preview">
+
     <div class="modal-content glass">
+
       <h2>Confirm Your Journey ✈</h2>
+
       <div id="modal-details"></div>
+
       <p class="notice">
+
          Sign in with Firebase Authentication.
+
       </p>
+
       <div class="modal-actions">
+
         <button class="btn outline"
+
                 onclick="closeModal()">Cancel</button>
+
         <button class="btn primary"
+
                 onclick="confirmBooking()">
+
           Confirm Demo →
+
         </button>
+
       </div>
+
     </div>
+
   </div>
+
 </body>
+
 </html>

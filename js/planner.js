@@ -199,3 +199,55 @@ async function sendMessage(event) {
     }
   }
 }
+
+/* AEROEASE - OFFLINE TRAVEL FALLBACK */
+
+function getTravelFallback(message) {
+  const question = String(message).toLowerCase();
+
+  const disclaimer =
+    "\n\n✦ Sample itinerary only. " +
+    "Live Gemini AI is currently unavailable. " +
+    "Prices and availability are not verified.";
+
+  if (/goa|beach|resort/.test(question)) {
+    return (
+      "✈ 3-Day Goa Beach Trip\n\n" +
+      "Day 1: Arrive in Goa, check into your hotel, " +
+      "and explore nearby beaches.\n\n" +
+      "Day 2: Explore local markets, coastal attractions, " +
+      "and Goan cuisine.\n\n" +
+      "Day 3: Enjoy sightseeing and prepare for departure." +
+      disclaimer
+    );
+  }
+
+  if (/dubai|luxury/.test(question)) {
+    return (
+      "✈ 4-Day Dubai Luxury Trip\n\n" +
+      "Day 1: Arrive in Dubai and explore Downtown Dubai.\n\n" +
+      "Day 2: Visit the Burj Khalifa area and Dubai Mall.\n\n" +
+      "Day 3: Explore Dubai Marina and Jumeirah Beach.\n\n" +
+      "Day 4: Explore cultural attractions and depart." +
+      disclaimer
+    );
+  }
+
+  if (/manali|mountain|adventure|retreat/.test(question)) {
+    return (
+      "✈ Manali Mountain Adventure\n\n" +
+      "Day 1: Arrive in Manali and explore the town.\n\n" +
+      "Day 2: Visit scenic viewpoints and local attractions.\n\n" +
+      "Day 3: Enjoy nature walks and local markets.\n\n" +
+      "Additional days can include nearby sightseeing, " +
+      "depending on weather and road conditions." +
+      disclaimer
+    );
+  }
+
+  return (
+    "Aero AI is temporarily offline.\n\n" +
+    "Please try again when the Gemini backend is available. " +
+    "You can still explore Flights, Hotels, and Packages."
+  );
+}
